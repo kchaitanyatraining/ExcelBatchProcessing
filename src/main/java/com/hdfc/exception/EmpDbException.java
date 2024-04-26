@@ -7,10 +7,7 @@ import javax.swing.*;
 public class EmpDbException extends Exception{
 
     public EmpDbException(String msg){
-
-        super("msg:: "+msg);
-
-        System.out.println("msg"+msg);
+        super(msg);
 
     }
 }
