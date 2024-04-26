@@ -8,8 +8,8 @@ public class EmpDbException extends Exception{
 
     public EmpDbException(String msg){
 
+        super("msg:: "+msg);
 
-        super(msg);
         System.out.println("msg"+msg);
 
     }
