@@ -5,6 +5,6 @@ import com.hdfc.service.EmployeeService;
 public class EmpDbException extends Exception{
 
     public EmpDbException(String msg){
-        super(msg);
+        super("msg:: "+msg);
     }
 }
