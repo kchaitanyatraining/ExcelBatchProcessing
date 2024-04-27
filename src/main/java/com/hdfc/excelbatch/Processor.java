@@ -1,8 +1,11 @@
 package com.hdfc.excelbatch;
 
-import com.hdfc.exception.EmpDbException;
+import com.hdfc.exception.EmpException;
+import com.hdfc.exception.EmpServiceExcetion;
 import com.hdfc.model.Employee;
 import com.hdfc.service.EmployeeService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Processor {
-
+Logger log= LogManager.getLogger(Processor.class);
     private static Workbook wbook;
 
 
     public List<Employee> readExcelData() {
         String excelPath = "D:\\workspace-proj\\employee.xlsx";
-
+        log.info("Process has started");
 
         List<Employee> listEmployee = null;
         try {
@@ -51,20 +54,26 @@ public class Processor {
         return listEmployee;
     }
 
-    public void writeIntoDB(List<Employee> emps) throws EmpDbException {
+    public void writeIntoDB(List<Employee> emps) {
+        log.info("Process has started");
+        log.debug("Process has started");
         EmployeeService service = new EmployeeService();
-        service.saveEmployee(emps);
+        try {
+            service.employeeProcess(emps);
+            log.info("process has completed");
+        } catch (EmpException e) {
+           log.error(e.getMessage());
+        } catch (EmpServiceExcetion e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public static void main(String[] args) {
         Processor processor = new Processor();
 
-        try {
             List<Employee> emps = processor.readExcelData();
             processor.writeIntoDB(emps);
-        } catch (EmpDbException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 

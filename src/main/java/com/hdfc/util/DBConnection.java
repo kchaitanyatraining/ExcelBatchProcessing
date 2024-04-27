@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-
+    static Connection con =null;
     public static Connection getConnection() {
-        Connection con =null;
+   ;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -18,5 +18,11 @@ public class DBConnection {
 
         }
 return con;
+    }
+
+    public static void closeConnection() throws SQLException {
+        if(con!=null){
+            con.close();
+        }
     }
 }
